@@ -38,7 +38,9 @@ Download Python 3.9 from https://www.python.org/downloads/release/python-390/
 Install Python 3.9 and then run the below package installs:
 
 Pip3 install ‘requests==2.28.1’
+
 Pip3 install ‘web3==5.31.1’
+
 Pip3 install pycoingecko
 
 Now to run the actual script, use the below command:
