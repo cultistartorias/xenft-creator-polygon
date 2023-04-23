@@ -20,7 +20,7 @@ from pycoingecko import CoinGeckoAPI
 
 # Set the XENFT parameters
 vmu = 128 # How many VMUs to mint?
-manual_max_term = 444  # Hardcoded max term for your XENFT
+manual_max_term = 485  # Hardcoded max term for your XENFT
 num_of_xenft_to_mint = 1 # Number of XENFTs to mint
 
 # if TRUE script will automatically return max term and overwrite above manual_max_term value.
@@ -28,8 +28,8 @@ num_of_xenft_to_mint = 1 # Number of XENFTs to mint
 use_automatic_max_term = True
 
 # Set gas-related claiming parameters
-only_claim_if_gas_is_below = 13
-max_priority_fee_per_gas = 1.1
+only_claim_if_gas_is_below = 250
+max_priority_fee_per_gas = 40
 
 # Claim/Mint parameters
 claim_when_consecutive_count = 3  # if n checks in a row are at below OnlyClaimIfGasBelow, only then claim it
@@ -37,15 +37,15 @@ how_many_seconds_between_checks = 10
 
 # For RPC node you can use Infura URL. Note: All requests to Infura must have a valid API key appended to the request URL or they will fail.
 # Get your own at: https://infura.io (Video Guide: https://youtu.be/R2WkpF4Em7k)
-rpc_url = "https://mainnet.infura.io/v3/ABCDEF"  # Replace ABCDEF with your Infura API id
+# rpc_url = "https://mainnet.infura.io/v3/ABCDEF"  # Replace ABCDEF with your Infura API id
 # Alternatively, if you don't want to sign up with Infura and monitor your own requests, just uncomment the line below to use Public Ethereum RPC, or get one from: https://llamanodes.com/public-rpc
-# rpc_url = "https://eth.llamarpc.com"
+rpc_url = "https://polygon-rpc.com"
 
 # Connect to the Ethereum network through RPC using WEB3 (DON'T TOUCH)
 web3 = Web3(Web3.HTTPProvider(rpc_url))
 
 # Replace these with your own wallet details
-your_wallet_address = '0x'  # replace with the account from which we'll pay for XENFT (ensure you have sufficient funds)
+your_wallet_address = '0x..your wallet'  # replace with the account from which we'll pay for XENFT (ensure you have sufficient funds)
 
 # PRIVATE KEYS
 # RECOMMENDED APPROACH: Script will ask you to enter the private key manually (at runtime)
@@ -54,8 +54,8 @@ your_wallet_address_private_key = getpass.getpass(prompt="Please enter your wall
 # your_wallet_address_private_key = '012345abcdef...'
 
 # XENFT & XEN smart contract addresses (DON'T TOUCH)
-xenft_contract_address = web3.toChecksumAddress('0x0a252663dbcc0b073063d6420a40319e438cfa59')
-xen_contract_address = web3.toChecksumAddress('0x06450dEe7FD2Fb8E39061434BAbCFC05599a6Fb8')
+xenft_contract_address = web3.toChecksumAddress('0x726bB6aC9b74441Eb8FB52163e9014302D4249e5')
+xen_contract_address = web3.toChecksumAddress('0x2AB0e9e4eE70FFf1fB9D67031E44F6410170d00e')
 
 # ABI
 xenft_abi = '[{"inputs":[{"internalType":"address","name":"xenCrypto_","type":"address"},{"internalType":"uint256[]","name":"burnRates_","type":"uint256[]"},{"internalType":"uint256[]","name":"tokenLimits_","type":"uint256[]"},{"internalType":"uint256","name":"startBlockNumber_","type":"uint256"},{"internalType":"address","name":"forwarder_","type":"address"},{"internalType":"address","name":"royaltyReceiver_","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[{"internalType":"address","name":"operator","type":"address"}],"name":"OperatorNotAllowed","type":"error"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"approved","type":"address"},{"indexed":true,"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"operator","type":"address"},{"indexed":false,"internalType":"bool","name":"approved","type":"bool"}],"name":"ApprovalForAll","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"tokenId","type":"uint256"},{"indexed":false,"internalType":"address","name":"to","type":"address"}],"name":"EndTorrent","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":true,"internalType":"address","name":"xenContract","type":"address"},{"indexed":true,"internalType":"address","name":"tokenContract","type":"address"},{"indexed":false,"internalType":"uint256","name":"xenAmount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"tokenAmount","type":"uint256"}],"name":"Redeemed","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"count","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"term","type":"uint256"}],"name":"StartTorrent","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":true,"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"Transfer","type":"event"},{"inputs":[],"name":"AUTHORS","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"BLACKOUT_TERM","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"COMMON_CATEGORY_COUNTER","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"LIMITED_CATEGORY_TIME_THRESHOLD","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"OPERATOR_FILTER_REGISTRY","outputs":[{"internalType":"contract IOperatorFilterRegistry","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"POWER_GROUP_SIZE","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"ROYALTY_BP","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"SPECIAL_CATEGORIES_VMU_THRESHOLD","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"trustedForwarder","type":"address"}],"name":"addForwarder","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"operator","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"approve","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"owner","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"},{"internalType":"address","name":"to","type":"address"}],"name":"bulkClaimMintReward","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"count","type":"uint256"},{"internalType":"uint256","name":"term","type":"uint256"}],"name":"bulkClaimRank","outputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"count","type":"uint256"},{"internalType":"uint256","name":"term","type":"uint256"},{"internalType":"uint256","name":"burning","type":"uint256"}],"name":"bulkClaimRankLimited","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"burn","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"to","type":"address"}],"name":"callClaimMintReward","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"term","type":"uint256"}],"name":"callClaimRank","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"genesisTs","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"getApproved","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"isApex","outputs":[{"internalType":"bool","name":"apex","type":"bool"}],"stateMutability":"pure","type":"function"},{"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"operator","type":"address"}],"name":"isApprovedForAll","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"forwarder","type":"address"}],"name":"isTrustedForwarder","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"mintInfo","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"},{"internalType":"uint256","name":"burned","type":"uint256"}],"name":"onTokenBurned","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"ownedTokens","outputs":[{"internalType":"uint256[]","name":"","type":"uint256[]"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"ownerOf","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"powerDown","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"},{"internalType":"uint256","name":"salePrice","type":"uint256"}],"name":"royaltyInfo","outputs":[{"internalType":"address","name":"receiver","type":"address"},{"internalType":"uint256","name":"royaltyAmount","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"safeTransferFrom","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"},{"internalType":"bytes","name":"data","type":"bytes"}],"name":"safeTransferFrom","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"operator","type":"address"},{"internalType":"bool","name":"approved","type":"bool"}],"name":"setApprovalForAll","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"specialClassesBurnRates","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"specialClassesCounters","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"specialClassesTokenLimits","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"startBlockNumber","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"bytes4","name":"interfaceId","type":"bytes4"}],"name":"supportsInterface","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"tokenIdCounter","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"tokenURI","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"transferFrom","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"vmuCount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"xenBurned","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"xenCrypto","outputs":[{"internalType":"contract XENCrypto","name":"","type":"address"}],"stateMutability":"view","type":"function"}]'
@@ -70,8 +70,8 @@ xen_abi = '[{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"
 # Get Ethereum cost in USD
 def get_eth_usd_value():
     cg = CoinGeckoAPI()
-    price = cg.get_price(ids=['ethereum'], vs_currencies='usd')
-    usd_value = price['ethereum']['usd']
+    price = cg.get_price(ids=['matic-network'], vs_currencies='usd')
+    usd_value = price['matic-network']['usd']
     return usd_value
 
 def fetch_abi(address):
@@ -175,9 +175,9 @@ for i in range(1, num_of_xenft_to_mint+1):
 
 
         if web3.eth.getBalance(your_wallet_address) < gas*maxFeePerGas:
-            raise Exception("Not enough Ether in your wallet address to pay for the transaction")
+            raise Exception("Not enough Matic in your wallet address to pay for the transaction")
         else:
-            print(f"{get_timestamp()} - Account balance before XENFT claim: {balance_before_claim} ETH (${total_account_value})")
+            print(f"{get_timestamp()} - Account balance before XENFT claim: {balance_before_claim} Matic (${total_account_value})")
 
         # Sign the transaction with your private key
         signed_tx = web3.eth.account.signTransaction(tx, your_wallet_address_private_key)
@@ -193,10 +193,10 @@ for i in range(1, num_of_xenft_to_mint+1):
         cost_in_ether = float(round(web3.fromWei(cost, 'ether'),6))
         total_cost_in_usd = round(cost_in_ether * eth_cost_in_usd,2)
         per_vmu_cost = round(total_cost_in_usd/vmu,2)
-        print(f"{get_timestamp()} - Expected XENFT Cost: {cost_in_ether} ETH (${total_cost_in_usd}) or ${per_vmu_cost}/VMU. Current ETH value: ${eth_cost_in_usd}.")
+        print(f"{get_timestamp()} - Expected XENFT Cost: {cost_in_ether} Matic (${total_cost_in_usd}) or ${per_vmu_cost}/VMU. Current Matic value: ${eth_cost_in_usd}.")
 
         # Print transaction hash URL
-        print(f"{get_timestamp()} - XENFT (vmu:{vmu}, term:{term}) - Successfully Initiated at {maxFeePerGas} gwei. URL: https://etherscan.io/tx/" + str(web3.toHex(tx_hash)))
+        print(f"{get_timestamp()} - XENFT (vmu:{vmu}, term:{term}) - Successfully Initiated at {maxFeePerGas} gwei. URL: https://polygonscan.com/tx/" + str(web3.toHex(tx_hash)))
 
         # Wait for the transaction to be mined
         # tx_receipt = web3.eth.waitForTransactionReceipt(tx_hash)
@@ -209,13 +209,13 @@ for i in range(1, num_of_xenft_to_mint+1):
 
         balance_after_claim = round(float(web3.fromWei(web3.eth.getBalance(your_wallet_address), 'ether')),6)
         now = datetime.datetime.now()
-        print(f"{get_timestamp()} - XENFT (vmu:{vmu}, term:{term}) - Successfully Created at {maxFeePerGas} gwei. URL: https://etherscan.io/tx/" + str(web3.toHex(tx_hash)))
+        print(f"{get_timestamp()} - XENFT (vmu:{vmu}, term:{term}) - Successfully Created at {maxFeePerGas} gwei. URL: https://polygonscan.com/tx/" + str(web3.toHex(tx_hash)))
         total_cost = float(round(balance_before_claim - balance_after_claim, 4))
         total_cost_in_usd = round((total_cost * eth_cost_in_usd),2)
         per_vmu_cost = round(total_cost_in_usd/vmu, 2)
         total_account_value = round(eth_cost_in_usd*balance_after_claim,2)
-        print(f"{get_timestamp()} - Actual (final) XENFT Cost: {total_cost} ETH (${total_cost_in_usd}) or ${per_vmu_cost}/VMU. Current ETH value: ${eth_cost_in_usd}.")
-        print(f"{get_timestamp()} - Account balance after XENFT claim: {balance_after_claim} ETH (${total_account_value})")
+        print(f"{get_timestamp()} - Actual (final) XENFT Cost: {total_cost} Matic (${total_cost_in_usd}) or ${per_vmu_cost}/VMU. Current Matic value: ${eth_cost_in_usd}.")
+        print(f"{get_timestamp()} - Account balance after XENFT claim: {balance_after_claim} Matic (${total_account_value})")
         print("-----------------------------------")
 
         ## ----------- BODY OF THE PROGRAM - END ----------- ##
